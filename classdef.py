@@ -22,15 +22,19 @@ class Player(object):
         # a function to draw the player paddle
         pygame.draw.circle(win, self.col, self.pos(), self.radius)  # win is the window where it will be drawn
 
-    def move(self, dir):
+    def move(self, dir, WIDHT, HEIGHT):
         if dir == 0:
-            print('Left')
+            if self.x - self.vel >= self.radius:
+                self.x -= self.vel
         elif dir == 1:
-            print('right')
+            if self.x + self.vel <= WIDHT - self.radius:
+                self.x += self.vel
         elif dir == 2:
-            print('up')
+            if self.y - self.vel >= self.radius:
+                self.y -= self.vel
         elif dir == 3:
-            print('down')
+            if self.y + self.vel <= HEIGHT - self.radius:
+                self.y += self.vel
 
 
 class Puck(object):

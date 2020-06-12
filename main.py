@@ -29,7 +29,7 @@ def redraw():
 
 
 # instancing the objects for the game
-p1 = Player(100, 100, 20, 3, (255, 0, 0))
+p1 = Player(100, 100, 20, 3, (255, 0, 0))  # fix this harcoded issue
 p2 = Player(300, 300, 20, 3, (0, 255, 0))
 puck = Puck(400, 200, 15, (255, 255, 255))
 
@@ -43,7 +43,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False  # stop the game if user tries to quit
     keys = pygame.key.get_pressed()
-    detect_key(keys, p1, p2, puck)
+    detect_key(keys, p1, p2, puck, WIDTH, HEIGHT)
     redraw()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pygame.quit()

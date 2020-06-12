@@ -3,12 +3,14 @@
 # imports
 import pygame
 import math
+from classdef import Player
+from classdef import Puck
 
 # constants
 
 # screen dimentions
-WIDTH = 700
-HEIGHT = 900
+WIDTH = 500
+HEIGHT = 700
 
 # initializing the window and clock
 win = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -18,8 +20,17 @@ FPS = 60  # frames per second
 
 def redraw():
     # function that redraws all the elements in the window
-    pass
+    win.fill((0, 0, 0))  # fill the screen to remove the last frame
+    p1.draw(win)
+    p2.draw(win)
+    puck.draw(win)
+    pygame.display.update()
 
+
+# instancing the objects for the game
+p1 = Player(100, 100, 20, (255, 0, 0))
+p2 = Player(300, 300, 20, (0, 255, 0))
+puck = Puck(400, 200, 15, (255, 255, 255))
 
 run = True  # for running the main loop
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -30,5 +41,6 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False  # stop the game if user tries to quit
+    redraw()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pygame.quit()

@@ -16,6 +16,11 @@ class Player(object):
         self.WIDTH = WIDTH
         self.H_START = H_START
         self.H_END = H_END
+        self.moving = False
+        self.mov_up = False
+        self.mov_down = False
+        self.mov_left = False
+        self.mov_right = False
 
     def pos(self):
         # return the position of the player
@@ -24,6 +29,23 @@ class Player(object):
     def draw(self, win):
         # a function to draw the player paddle
         pygame.draw.circle(win, self.col, self.pos(), self.radius)  # win is the window where it will be drawn
+        # the hit box
+        pygame.draw.rect(win, (255, 255, 255), (self.x - self.radius, self.y - self.radius, 2 * self.radius, 2 * self.radius), 1)
+
+    def setmove(self, dir):
+        # resets any movement
+        self.mov_up = False
+        self.mov_down = False
+        self.mov_left = False
+        self.mov_right = False
+        if dir == 0:
+            self.mov_left = True
+        elif dir == 1:
+            self.mov_right = True
+        elif dir == 2:
+            self.mov_down = True
+        elif dir == 3:
+            self.mov_up = True
 
     def move(self, dir):
         if dir == 0:
@@ -39,6 +61,9 @@ class Player(object):
             if self.y + self.vel <= self.H_END - self.radius:
                 self.y += self.vel
 
+    def hit_detect(self, puck):
+        pass
+
 
 class Puck(object):
     # class def for the ingame puck
@@ -53,8 +78,10 @@ class Puck(object):
         return (self.x, self.y)
 
     def draw(self, win):
-        # a function to draw the player paddle
+        # a function to draw the puck
         pygame.draw.circle(win, self.col, self.pos(), self.radius)  # win is the window where it will be drawn
+        # the hit box
+        pygame.draw.rect(win, (255, 0, 0), (self.x - self.radius, self.y - self.radius, 2 * self.radius, 2 * self.radius), 1)
 
     def move(self):
         pass

@@ -43,7 +43,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False  # stop the game if user tries to quit
     keys = pygame.key.get_pressed()
-    detect_key(keys, p1, p2)
+    detect_key(keys, p1, p2, puck)
     redraw()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pygame.quit()

@@ -4,21 +4,21 @@
 import pygame
 
 
-def detect_key(keys):
+def detect_key(keys, p1, p2, puck):
     # this function takes the list of all keys pressed
     if keys[pygame.K_LEFT]:
-        print('left')
+        p1.move(0)
     elif keys[pygame.K_RIGHT]:
-        print('right')
+        p1.move(1)
     elif keys[pygame.K_UP]:
-        print('up')
+        p1.move(2)
     elif keys[pygame.K_DOWN]:
-        print('down')
+        p1.move(3)
     elif keys[pygame.K_w]:
-        print('w')
+        p2.move(2)
     elif keys[pygame.K_s]:
-        print('s')
+        p2.move(3)
     elif keys[pygame.K_a]:
-        print('a')
+        p2.move(0)
     elif keys[pygame.K_d]:
-        print('d')
+        p2.move(1)

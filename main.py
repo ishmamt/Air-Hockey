@@ -5,6 +5,7 @@ import pygame
 import math
 from classdef import Player
 from classdef import Puck
+from keypress import detect_key
 
 # constants
 
@@ -41,6 +42,8 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False  # stop the game if user tries to quit
+    keys = pygame.key.get_pressed()
+    detect_key(keys)
     redraw()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pygame.quit()

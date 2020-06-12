@@ -6,13 +6,16 @@ import pygame
 
 class Player(object):
     # class def for the player
-    def __init__(self, x, y, radius, vel, col=(0, 0, 0)):
+    def __init__(self, x, y, radius, vel, WIDTH, H_START, H_END, col=(0, 0, 0)):
         self.points = 0
         self.x = x
         self.y = y
         self.radius = radius
         self.col = col  # default color is black
         self.vel = vel
+        self.WIDTH = WIDTH
+        self.H_START = H_START
+        self.H_END = H_END
 
     def pos(self):
         # return the position of the player
@@ -22,18 +25,18 @@ class Player(object):
         # a function to draw the player paddle
         pygame.draw.circle(win, self.col, self.pos(), self.radius)  # win is the window where it will be drawn
 
-    def move(self, dir, WIDHT, HEIGHT):
+    def move(self, dir):
         if dir == 0:
             if self.x - self.vel >= self.radius:
                 self.x -= self.vel
         elif dir == 1:
-            if self.x + self.vel <= WIDHT - self.radius:
+            if self.x + self.vel <= self.WIDTH - self.radius:
                 self.x += self.vel
         elif dir == 2:
-            if self.y - self.vel >= self.radius:
+            if self.y - self.vel >= self.H_START + self.radius:
                 self.y -= self.vel
         elif dir == 3:
-            if self.y + self.vel <= HEIGHT - self.radius:
+            if self.y + self.vel <= self.H_END - self.radius:
                 self.y += self.vel
 
 

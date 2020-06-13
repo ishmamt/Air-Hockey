@@ -40,15 +40,24 @@ class Player(object):
         self.mov_right = False
         if dir == 0:
             self.mov_left = True
+            self.moving = True
         elif dir == 1:
             self.mov_right = True
+            self.moving = True
         elif dir == 2:
             self.mov_down = True
+            self.moving = True
         elif dir == 3:
             self.mov_up = True
+            self.moving = True
+        else:
+            self.moving = False
+            self.mov_down = False
+            self.mov_up = False
+            self.mov_left = False
+            self.mov_right = False
 
     def move(self, dir):
-        self.moving = True
         if dir == 0:
             if self.x - self.vel >= self.radius:
                 self.x -= self.vel

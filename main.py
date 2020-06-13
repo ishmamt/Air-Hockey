@@ -46,7 +46,6 @@ while run:
     detect_key(keys, p1, p2)
     p1.hit_detect(puck)
     p2.hit_detect(puck)
-    print(p1.moving, p2.moving)
     redraw()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pygame.quit()

@@ -62,7 +62,13 @@ class Player(object):
                 self.y += self.vel
 
     def hit_detect(self, puck):
-        pass
+        # detects when the player hits the puck
+        if ((self.y + self.radius) >= (puck.y - puck.radius)) and ((self.y + self.radius) <= (puck.y + puck.radius)):
+            if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
+                print('HIT', self.x, self.y)
+        elif ((self.y - self.radius) <= (puck.y + puck.radius)) and ((self.y - self.radius) >= (puck.y - puck.radius)):
+            if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
+                print('HIT', self.x, self.y)
 
 
 class Puck(object):

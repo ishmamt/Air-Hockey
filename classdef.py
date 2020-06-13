@@ -76,11 +76,9 @@ class Player(object):
         if ((self.y + self.radius) >= (puck.y - puck.radius)) and ((self.y + self.radius) <= (puck.y + puck.radius)):
             if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
                 print('HIT', self.x, self.y)
-                self.calcAngle(puck)
         elif ((self.y - self.radius) <= (puck.y + puck.radius)) and ((self.y - self.radius) >= (puck.y - puck.radius)):
             if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
                 print('HIT', self.x, self.y)
-                self.calcAngle(puck)
 
     def calcAngle(self, puck):
         pass

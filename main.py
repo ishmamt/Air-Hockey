@@ -18,6 +18,12 @@ win = pygame.display.set_mode((WIDTH, HEIGHT))
 clk = pygame.time.Clock()
 FPS = 60  # frames per second
 
+# game attributes
+PL_SPEED = 3
+PUCK_SPEED = 5
+PL_RADIUS = 20
+PUCK_RADIUS = 10
+
 
 def redraw():
     # function that redraws all the elements in the window
@@ -29,9 +35,9 @@ def redraw():
 
 
 # instancing the objects for the game
-p1 = Player(100, 100, 20, 3, WIDTH, 0, HEIGHT / 2, (255, 0, 0))  # fix this harcoded issue
-p2 = Player(300, 500, 20, 3, WIDTH, HEIGHT / 2, HEIGHT, (0, 255, 0))
-puck = Puck(400, 200, 15, (255, 255, 255))
+p1 = Player(100, 100, PL_RADIUS, PL_SPEED, WIDTH, 0, HEIGHT / 2, (255, 0, 0))  # fix this harcoded issue and make it accessible by constants
+p2 = Player(300, 500, PL_RADIUS, PL_SPEED, WIDTH, HEIGHT / 2, HEIGHT, (0, 255, 0))
+puck = Puck(400, 200, PUCK_RADIUS, (255, 255, 255))
 
 run = True  # for running the main loop
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

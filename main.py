@@ -19,8 +19,8 @@ clk = pygame.time.Clock()
 FPS = 60  # frames per second
 
 # game attributes
-PL_SPEED = 3
-PUCK_SPEED = 5
+PL_SPEED = 5
+PUCK_SPEED = 1  # idk if i need this
 PL_RADIUS = 20
 PUCK_RADIUS = 10
 
@@ -37,7 +37,7 @@ def redraw():
 # instancing the objects for the game
 p1 = Player(100, 100, PL_RADIUS, PL_SPEED, WIDTH, 0, HEIGHT / 2, (255, 0, 0))  # fix this harcoded issue and make it accessible by constants
 p2 = Player(300, 500, PL_RADIUS, PL_SPEED, WIDTH, HEIGHT / 2, HEIGHT, (0, 255, 0))
-puck = Puck(400, 200, PUCK_RADIUS, (255, 255, 255))
+puck = Puck(WIDTH // 2, HEIGHT // 2, PUCK_RADIUS, PUCK_SPEED, (255, 255, 255))
 
 run = True  # for running the main loop
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,6 +52,8 @@ while run:
     detect_key(keys, p1, p2)
     p1.hit_detect(puck)
     p2.hit_detect(puck)
+    puck.move()
+    print(puck.x, puck.y)
     redraw()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pygame.quit()

@@ -37,7 +37,7 @@ def redraw():
 # instancing the objects for the game
 p1 = Player(100, 100, PL_RADIUS, PL_SPEED, WIDTH, 0, HEIGHT / 2, (255, 0, 0))  # fix this harcoded issue and make it accessible by constants
 p2 = Player(300, 500, PL_RADIUS, PL_SPEED, WIDTH, HEIGHT / 2, HEIGHT, (0, 255, 0))
-puck = Puck(WIDTH // 2, HEIGHT // 2, PUCK_RADIUS, PUCK_SPEED, (255, 255, 255))
+puck = Puck(WIDTH // 2, HEIGHT // 2, PUCK_RADIUS, WIDTH, HEIGHT, PUCK_SPEED, (255, 255, 255))
 
 run = True  # for running the main loop
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

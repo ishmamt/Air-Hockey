@@ -115,13 +115,15 @@ class Player(object):
 
 class Puck(object):
     # class def for the ingame puck
-    def __init__(self, x, y, radius, maxVel=5, col=(0, 0, 0)):
+    def __init__(self, x, y, radius, WIDTH, HEIGHT, maxVel=5, col=(0, 0, 0)):
         self.x = x
         self.y = y
         self.radius = radius
+        self.WIDTH = WIDTH
+        self.HEIGHT = HEIGHT
         self.maxVel = maxVel
         self.col = col  # default color is black
-        self.angle = (math.pi) / 4  # the angle that the puck moves
+        self.angle = math.pi / 4  # the angle that the puck moves
         # these x, y pair will keep the position of the puck in the last frame for angle calculation
         self.lastx = x
         self.lasty = y
@@ -143,5 +145,11 @@ class Puck(object):
     def move(self):
         self.lastx = self.x  # keeping track of the last frames position before moving
         self.lasty = self.y
-        self.x += round(math.cos(self.angle) * self.maxVel)
-        self.y -= round(math.sin(self.angle) * self.maxVel)
+        # self.x += round(math.cos(self.angle) * self.maxVel)
+        # self.y -= round(math.sin(self.angle) * self.maxVel)
+        newx = round(math.cos(self.angle) * self.maxVel)
+        newy = round(math.sin(self.angle) * self.maxVel)
+        if self.x + newx >= self.radius and self.x + newx <= self.WIDTH - self.radius:
+            if self.y - newy >= self.radius and self.y - newy <= self.HEIGHT - self.radius:
+                self.x += newx
+                self.y -= newy

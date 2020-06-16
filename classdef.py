@@ -123,10 +123,11 @@ class Puck(object):
         self.HEIGHT = HEIGHT
         self.maxVel = maxVel
         self.col = col  # default color is black
-        self.angle = math.pi / 4  # the angle that the puck moves
         # these x, y pair will keep the position of the puck in the last frame for angle calculation
         self.lastx = x
         self.lasty = y
+        self.dx = maxVel
+        self.dy = maxVel
 
     def pos(self):
         # returns position of the puck
@@ -138,18 +139,20 @@ class Puck(object):
         # the hit box
         pygame.draw.rect(win, (255, 0, 0), (self.x - self.radius, self.y - self.radius, 2 * self.radius, 2 * self.radius), 1)
 
-    def staticHitAngle(self):
-        # this func will calculate the angle of which the puck would move in the case of a static obj collision eg: wall
-        pass
+    def staticHit(self):
+        # this will handle the bouncing of the puck when it hits the walls
+        if self.x + self.dx < self.radius or self.x + self.dx > self.WIDTH - self.radius:
+            self.dx *= -1
+        if self.y - self.dy < self.radius or self.y - self.dy > self.HEIGHT - self.radius:
+            self.dy *= -1
+        self.x += self.dx
+        self.y -= self.dy
 
     def move(self):
         self.lastx = self.x  # keeping track of the last frames position before moving
         self.lasty = self.y
-        # self.x += round(math.cos(self.angle) * self.maxVel)
-        # self.y -= round(math.sin(self.angle) * self.maxVel)
-        newx = round(math.cos(self.angle) * self.maxVel)
-        newy = round(math.sin(self.angle) * self.maxVel)
-        if self.x + newx >= self.radius and self.x + newx <= self.WIDTH - self.radius:
-            if self.y - newy >= self.radius and self.y - newy <= self.HEIGHT - self.radius:
-                self.x += newx
-                self.y -= newy
+        if self.x + self.dx >= self.radius and self.x + self.dx <= self.WIDTH - self.radius and self.y - self.dy >= self.radius and self.y - self.dy <= self.HEIGHT - self.radius:
+            self.x += self.dx
+            self.y -= self.dy
+        else:
+            self.staticHit()

@@ -20,7 +20,7 @@ FPS = 60  # frames per second
 
 # game attributes
 PL_SPEED = 5
-PUCK_SPEED = 5
+PUCK_SPEED = 3
 PL_RADIUS = 20
 PUCK_RADIUS = 10
 
@@ -53,7 +53,6 @@ while run:
     p1.hit_detect(puck)
     p2.hit_detect(puck)
     puck.move()
-    # print(puck.angle)
     redraw()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pygame.quit()

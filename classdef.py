@@ -4,6 +4,9 @@
 import pygame
 import math
 
+# constants
+COOLDOWN = 15  # this is the amount of frames after which a new collision will be detected
+
 
 class Player(object):
     # class def for the player
@@ -22,6 +25,7 @@ class Player(object):
         self.mov_down = False
         self.mov_left = False
         self.mov_right = False
+        self.cooldown = 0
 
     def pos(self):
         # return the position of the player
@@ -74,14 +78,17 @@ class Player(object):
 
     def hit_detect(self, puck):
         # detects when the player hits the puck
-        if ((self.y + self.radius) >= (puck.y - puck.radius)) and ((self.y + self.radius) <= (puck.y + puck.radius)):
-            if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
-                print('HIT', self.x, self.y)
-                self.calcAngle(puck)
-        elif ((self.y - self.radius) <= (puck.y + puck.radius)) and ((self.y - self.radius) >= (puck.y - puck.radius)):
-            if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
-                print('HIT', self.x, self.y)
-                self.calcAngle(puck)
+        if self.cooldown == COOLDOWN:
+            if ((self.y + self.radius) >= (puck.y - puck.radius)) and ((self.y + self.radius) <= (puck.y + puck.radius)):
+                if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
+                    print('HIT', self.x, self.y)
+                    self.calcAngle(puck)
+            elif ((self.y - self.radius) <= (puck.y + puck.radius)) and ((self.y - self.radius) >= (puck.y - puck.radius)):
+                if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
+                    print('HIT', self.x, self.y)
+                    self.calcAngle(puck)
+            self.cooldown = 0
+        self.cooldown += 1
 
     def calcAngle(self, puck):
         # this finds the angle between the puck and the player if a hit happens
@@ -95,13 +102,14 @@ class Player(object):
             moveAngle = math.pi
         else:
             puck.staticHit(self)  # if the player is stationary
+            return
 
         # now we calculate the angle at which the puck hits the paddle
         try:
             hitAngle = math.atan((puck.y - self.y) / (puck.x - self.x))
         except:
             hitAngle = math.pi / 2
-        # correcting for the angle to stay in [-2pi ~ 2pi]
+        # correcting for the angle
         if puck.x >= self.x and puck.y <= self.y:
             hitAngle = abs(hitAngle)
         elif puck.x < self.x and puck.y <= self.y:
@@ -111,8 +119,12 @@ class Player(object):
         else:
             hitAngle = 2 * math.pi - hitAngle
 
-        # finally finding the difference between the paddle's direction and the hitAngle
-        puck.angle = 10  # NEEDS TO BE FIXED
+        # calculating how the puck will move
+        puck.staticHit(self)  # just to reverse the pucks direction
+        xMove = self.vel * math.cos(moveAngle) + puck.dx + puck.dy * math.cos(hitAngle)
+        yMove = self.vel * math.sin(moveAngle) + puck.dy + puck.dx * math.sin(hitAngle)
+        puck.dx = round(xMove)
+        puck.dy = round(yMove)
 
 
 class Puck(object):
@@ -128,7 +140,7 @@ class Puck(object):
         # these x, y pair will keep the position of the puck in the last frame for angle calculation
         self.lastx = x
         self.lasty = y
-        self.dx = maxVel
+        self.dx = 0
         self.dy = maxVel
 
     def pos(self):
@@ -158,8 +170,17 @@ class Puck(object):
         self.y -= self.dy
 
     def move(self):
-        self.lastx = self.x  # keeping track of the last frames position before moving
-        self.lasty = self.y
+        if self.dx > self.maxVel or self.dx < -self.maxVel:
+            if self.dx > 0:
+                self.dx = self.maxVel
+            else:
+                self.dx = -self.maxVel
+        if self.dy > self.maxVel or self.dy < -self.maxVel:
+            if self.dy > 0:
+                self.dy = self.maxVel
+            else:
+                self.dy = -self.maxVel
+
         if self.x + self.dx >= self.radius and self.x + self.dx <= self.WIDTH - self.radius and self.y - self.dy >= self.radius and self.y - self.dy <= self.HEIGHT - self.radius:
             self.x += self.dx
             self.y -= self.dy

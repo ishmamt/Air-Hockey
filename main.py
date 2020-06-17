@@ -2,7 +2,6 @@
 
 # imports
 import pygame
-import math
 from classdef import Player
 from classdef import Puck
 from keypress import detect_key
@@ -19,8 +18,8 @@ clk = pygame.time.Clock()
 FPS = 60  # frames per second
 
 # game attributes
-PL_SPEED = 5
-PUCK_SPEED = 3
+PL_SPEED = 5  # player movement speed
+PUCK_SPEED = 5  # maximum velocity of the puck
 PL_RADIUS = 20
 PUCK_RADIUS = 10
 

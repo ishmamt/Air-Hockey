@@ -77,14 +77,17 @@ class Player(object):
 
     def hit_detect(self, puck):
         # detects when the player hits the puck
-        if ((self.y + self.radius) >= (puck.y - puck.radius)) and ((self.y + self.radius) <= (puck.y + puck.radius)):
-            if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
-                print('HIT', self.x, self.y)
-                self.calcAngle(puck)
-        elif ((self.y - self.radius) <= (puck.y + puck.radius)) and ((self.y - self.radius) >= (puck.y - puck.radius)):
-            if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
-                print('HIT', self.x, self.y)
-                self.calcAngle(puck)
+        # if ((self.y + self.radius) >= (puck.y - puck.radius)) and ((self.y + self.radius) <= (puck.y + puck.radius)):
+        #     if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
+        #         print('HIT', self.x, self.y)
+        #         self.calcAngle(puck)
+        # elif ((self.y - self.radius) <= (puck.y + puck.radius)) and ((self.y - self.radius) >= (puck.y - puck.radius)):
+        #     if (((puck.x - puck.radius) >= (self.x - self.radius)) and ((puck.x - puck.radius) <= (self.x + self.radius))) or (((puck.x + puck.radius) >= (self.x - self.radius)) and ((puck.x + puck.radius) <= (self.x + self.radius))):
+        #         print('HIT', self.x, self.y)
+        #         self.calcAngle(puck)
+        if self.hitbox.colliderect(puck.hitbox):
+            print('HIT', self.x, self.y)
+            puck.hit(self)
 
     def calcAngle(self, puck):
         # this finds the angle between the puck and the player if a hit happens
@@ -105,7 +108,7 @@ class Player(object):
             hitAngle = math.atan((puck.y - self.y) / (puck.x - self.x))
         except:
             hitAngle = math.pi / 2
-        # # correcting for the angle
+        # correcting for the angle
         # if puck.x >= self.x and puck.y <= self.y:
         #     hitAngle = abs(hitAngle)
         # elif puck.x < self.x and puck.y <= self.y:
@@ -136,7 +139,7 @@ class Puck(object):
         # these x, y pair will keep the position of the puck in the last frame for angle calculation
         self.lastx = x
         self.lasty = y
-        self.dx = 0
+        self.dx = -maxVel
         self.dy = maxVel
         self.hitbox = pygame.Rect(self.x - self.radius, self.y - self.radius, 2 * self.radius, 2 * self.radius)
 
@@ -167,14 +170,18 @@ class Puck(object):
         elif self.y - self.radius <= player.y + player.radius and self.dy >= 0:
             self.dy *= -1
 
-    def wallHit(self):
-        # this will handle the bouncing of the puck when it hits the walls
-        if self.x + self.dx < self.radius or self.x + self.dx > self.WIDTH - self.radius:
-            self.dx *= -1
-        if self.y - self.dy < self.radius or self.y - self.dy > self.HEIGHT - self.radius:
+    def hit(self, player):
+        # this function is triggered when the puck hits the paddle
+        hitMargin = 10  # this is a tolerance margin, any pixel difference under this value is acceptable
+
+        if abs(self.hitbox.bottom - player.hitbox.top) < hitMargin and self.dy < 0:
             self.dy *= -1
-        self.x += self.dx
-        self.y -= self.dy
+        elif abs(self.hitbox.top - player.hitbox.bottom) < hitMargin and self.dy > 0:
+            self.dy *= -1
+        elif abs(self.hitbox.left - player.hitbox.right) < hitMargin and self.dx < 0:
+            self.dx *= -1
+        elif abs(self.hitbox.right - player.hitbox.left) < hitMargin and self.dx > 0:
+            self.dx *= -1
 
     def move(self):
         if self.dx > self.maxVel or self.dx < -self.maxVel:
@@ -188,8 +195,11 @@ class Puck(object):
             else:
                 self.dy = -self.maxVel
 
-        if self.x + self.dx >= self.radius and self.x + self.dx <= self.WIDTH - self.radius and self.y - self.dy >= self.radius and self.y - self.dy <= self.HEIGHT - self.radius:
-            self.x += self.dx
-            self.y -= self.dy
-        else:
-            self.wallHit()
+        # to keep the puck in bounds
+        if self.x + self.dx >= self.WIDTH - self.radius or self.x + self.dx <= self.radius:
+            self.dx *= -1
+        if self.y - self.dy >= self.HEIGHT - self.radius or self.y - self.dy <= self.radius:
+            self.dy *= -1
+
+        self.x += self.dx
+        self.y -= self.dy

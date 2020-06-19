@@ -19,14 +19,35 @@ FPS = 60  # frames per second
 
 # game attributes
 PL_SPEED = 5  # player movement speed
-PUCK_SPEED = 5  # maximum velocity of the puck
+PUCK_SPEED = 4  # maximum velocity of the puck
 PL_RADIUS = 20
 PUCK_RADIUS = 10
+GOAL_WIDHT = 150
+GOAL_HEIGHT = 10
+
+# making the goals as a rect object
+p1_goal = pygame.Rect(WIDTH // 2 - GOAL_WIDHT // 2, 0, GOAL_WIDHT, GOAL_HEIGHT)
+p2_goal = pygame.Rect(WIDTH // 2 - GOAL_WIDHT // 2, HEIGHT - GOAL_HEIGHT, GOAL_WIDHT, GOAL_HEIGHT)
+
+# colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+
+
+def drawBoard():
+    # This function draws the game board
+    pygame.draw.line(win, WHITE, (0, HEIGHT // 2), (WIDTH, HEIGHT // 2))
+    pygame.draw.circle(win, WHITE, (WIDTH // 2, HEIGHT // 2), 100, 1)
+
+    pygame.draw.rect(win, RED, p1_goal, 1)
+    pygame.draw.rect(win, RED, p2_goal, 1)
 
 
 def redraw():
     # function that redraws all the elements in the window
-    win.fill((0, 0, 0))  # fill the screen to remove the last frame
+    win.fill(BLACK)  # fill the screen to remove the last frame
+    drawBoard()
     p1.draw(win)
     p2.draw(win)
     puck.draw(win)
@@ -34,9 +55,9 @@ def redraw():
 
 
 # instancing the objects for the game
-p1 = Player(100, 100, PL_RADIUS, PL_SPEED, WIDTH, 0, HEIGHT / 2, (255, 0, 0))  # fix this harcoded issue and make it accessible by constants
-p2 = Player(300, 500, PL_RADIUS, PL_SPEED, WIDTH, HEIGHT / 2, HEIGHT, (0, 255, 0))
-puck = Puck(WIDTH // 2, HEIGHT // 2, PUCK_RADIUS, WIDTH, HEIGHT, PUCK_SPEED, (255, 255, 255))
+p1 = Player(100, 100, PL_RADIUS, PL_SPEED, WIDTH, 0, HEIGHT / 2, (255, 0, 0), 'Player_1')  # fix this harcoded issue and make it accessible by constants
+p2 = Player(300, 500, PL_RADIUS, PL_SPEED, WIDTH, HEIGHT / 2, HEIGHT, (0, 255, 0), 'PLayer_2')
+puck = Puck(WIDTH // 2, HEIGHT // 2, PUCK_RADIUS, WIDTH, HEIGHT, PUCK_SPEED, WHITE)
 
 run = True  # for running the main loop
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,6 +73,8 @@ while run:
     p1.hit_detect(puck)
     p2.hit_detect(puck)
     puck.move()
+    if puck.inGoal(p1, p2, p1_goal, p2_goal):
+        run = False  # game over
     redraw()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pygame.quit()

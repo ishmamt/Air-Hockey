@@ -5,9 +5,15 @@
 import pygame
 
 
+# constants
+WIDHT = 500
+HEIGHT = 700
+MAXPOINTS = 2
+
+
 class Player(object):
     # class def for the player
-    def __init__(self, x, y, radius, vel, WIDTH, H_START, H_END, col=(255, 255, 255)):
+    def __init__(self, x, y, radius, vel, WIDTH, H_START, H_END, col=(255, 255, 255), name=''):
         self.points = 0
         self.x = x
         self.y = y
@@ -17,7 +23,9 @@ class Player(object):
         self.WIDTH = WIDTH
         self.H_START = H_START
         self.H_END = H_END
+        self.name = name
         self.hitbox = pygame.Rect(self.x - self.radius, self.y - self.radius, 2 * self.radius, 2 * self.radius)
+        self.moving = False
 
     def pos(self):
         # return the position of the player
@@ -44,11 +52,22 @@ class Player(object):
         elif dir == 3:
             if self.y + self.vel <= self.H_END - self.radius:
                 self.y += self.vel
+        self.moving = True
 
     def hit_detect(self, puck):
         # detects if the puck has hit the player
         if self.hitbox.colliderect(puck.hitbox):
             puck.hit(self)
+
+    def goal(self):
+        # this function handles the actions if a goal occurs
+        if self.points < MAXPOINTS:
+            self.points += 1
+            return False
+        # game is over
+        print('GAME OVER')
+        print(self.name, 'has won !!')
+        return True
 
 
 class Puck(object):
@@ -64,6 +83,7 @@ class Puck(object):
         self.dx = -maxVel
         self.dy = maxVel
         self.hitbox = pygame.Rect(self.x - self.radius, self.y - self.radius, 2 * self.radius, 2 * self.radius)
+        self.minVel = 1
 
     def pos(self):
         # returns position of the puck
@@ -80,6 +100,19 @@ class Puck(object):
     def hit(self, player):
         # this function is triggered when the puck hits the paddle
         hitMargin = 10  # this is a tolerance margin, any pixel difference under this value is acceptable
+
+        if player.moving:
+            # this will increase the speed of the puck when it hits a moving paddle
+            # this has no actual purpose right now. I thought about slowing down the puck
+            # but that funtionality has not been added yet
+            if self.dx > 0:
+                self.dx = self.maxVel
+            else:
+                self.dx = -self.maxVel
+            if self.dy > 0:
+                self.dy = self.maxVel
+            else:
+                self.dy = -self.maxVel
 
         if abs(self.hitbox.bottom - player.hitbox.top) < hitMargin and self.dy < 0:
             self.dy *= -1
@@ -108,5 +141,20 @@ class Puck(object):
         if self.y - self.dy >= self.HEIGHT - self.radius or self.y - self.dy <= self.radius:
             self.dy *= -1
 
-        self.x += self.dx
-        self.y -= self.dy
+        self.x += round(self.dx)
+        self.y -= round(self.dy)
+
+    def inGoal(self, p1, p2, p1_goal, p2_goal):
+        if self.hitbox.colliderect(p1_goal):
+            print('point for p2')
+            self.resetPos()
+            return p2.goal()
+        if self.hitbox.colliderect(p2_goal):
+            print('point for p1')
+            self.resetPos()
+            return p1.goal()
+        return False
+
+    def resetPos(self):
+        self.x = WIDHT // 2
+        self.y = HEIGHT // 2

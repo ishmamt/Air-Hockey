@@ -8,7 +8,7 @@ import pygame
 # constants
 WIDHT = 500
 HEIGHT = 700
-MAXPOINTS = 2
+MAXPOINTS = 2  # (points - 1) needed to win the game
 
 
 class Player(object):

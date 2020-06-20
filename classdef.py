@@ -13,7 +13,7 @@ MAXPOINTS = 2  # (points - 1) needed to win the game
 
 class Player(object):
     # class def for the player
-    def __init__(self, x, y, radius, vel, WIDTH, H_START, H_END, col=(255, 255, 255), name=''):
+    def __init__(self, x, y, radius, vel, WIDTH, H_START, H_END, col=(255, 255, 255), name='Player'):
         self.points = 0
         self.x = x
         self.y = y
@@ -146,11 +146,9 @@ class Puck(object):
 
     def inGoal(self, p1, p2, p1_goal, p2_goal):
         if self.hitbox.colliderect(p1_goal):
-            print('point for p2')
             self.resetPos()
             return p2.goal()
         if self.hitbox.colliderect(p2_goal):
-            print('point for p1')
             self.resetPos()
             return p1.goal()
         return False

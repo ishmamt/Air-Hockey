@@ -5,6 +5,8 @@ import pygame
 from classdef import Player
 from classdef import Puck
 from keypress import detect_key
+import gui
+
 
 # constants
 
@@ -27,7 +29,7 @@ PUCK_RADIUS = 10
 GOAL_WIDHT = 150
 GOAL_HEIGHT = 10
 background = pygame.image.load('gameBG.jpg')
-score_font = pygame.font.SysFont('segoe ui', 30)
+score_font = pygame.font.SysFont('Microsoft YaHei Light', 30)
 
 # music
 pygame.mixer.init()
@@ -45,7 +47,7 @@ RED = (255, 0, 0)
 GOAL_COL = (102, 102, 255)
 P1_COL = (232, 38, 38)
 P2_COL = (70, 180, 88)
-SCORE_COL = (255, 51, 0)
+SCORE_COL = (191, 191, 191)
 
 
 def drawBoard():
@@ -66,17 +68,20 @@ def redraw():
     # function that redraws all the elements in the window
     # win.fill(BLACK)  # fill the screen to remove the last frame
     win.blit(background, (0, 0))
-    drawBoard()
     p1.draw(win)
     p2.draw(win)
     puck.draw(win)
+    drawBoard()
     pygame.display.update()
 
 
 # instancing the objects for the game
-p1 = Player(100, 100, PL_RADIUS, PL_SPEED, WIDTH, 0, HEIGHT / 2, P1_COL, 'Player_1')  # fix this harcoded issue and make it accessible by constants
-p2 = Player(300, 500, PL_RADIUS, PL_SPEED, WIDTH, HEIGHT / 2, HEIGHT, P2_COL, 'Player_2')
+p1 = Player(100, 100, PL_RADIUS, PL_SPEED, WIDTH, 0, HEIGHT / 2, P1_COL)  # fix this harcoded issue and make it accessible by constants
+p2 = Player(300, 500, PL_RADIUS, PL_SPEED, WIDTH, HEIGHT / 2, HEIGHT, P2_COL)
 puck = Puck(WIDTH // 2, HEIGHT // 2, PUCK_RADIUS, WIDTH, HEIGHT, PUCK_SPEED, WHITE)
+
+
+gui.mainLoop(p1, p2)  # handles the GUI
 
 run = True  # for running the main loop
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

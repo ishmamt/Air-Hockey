@@ -1,14 +1,14 @@
-# Air Hockey
+# Air Hockey 🏒
 
 This game was made using the awesome pygame module to gain ideas for a object oriented approach to problems.
 
-## How to run it?
+## How to run it? ❓
 
 - At first you need to have python installed. I've used Python 3.8.1 and you can get the latest version of python from [here](https://www.python.org/downloads/).
 - Then use pip to install pygame. Usually pip comes with Python. If not then get it from [here](https://pypi.org/project/pip/).
-- **Compile and run the main.py script.**
+- **Compile and run the main.py script.** ❗
 
-## What doe it contain?
+## What doe it contain? 🔎
 
 At first, it has a simple GUI that prompts the players to enter names that would be used ingame
 It also contains these scripts:
@@ -22,9 +22,9 @@ It also contains these scripts:
 - *main.py*
     > This is the script that has the main loop and almost every constant can be maniulated from here.
 
-It also has  *gameBG.jpg* , the background image used for the game window and  *bgMusic.mp3* , the background music
+It also has  *gameBG.jpg* , the background image 🖼 and  *bgMusic.mp3* , the background music 🎵 .
 
-## Future Plans:
+## Future Plans 📝
 
 This project is by no means polished. It still has a few bugs. Some of the fiels that I want to improve upon are:
 

@@ -8,7 +8,7 @@ This game was made using the awesome pygame module to gain ideas for a object or
 - Then use pip to install pygame. Usually pip comes with Python. If not then get it from [here](https://pypi.org/project/pip/).
 - **Compile and run the main.py script.** ❗
 
-## What doe it contain? 🔎
+## What does it contain? 🔎
 
 At first, it has a simple GUI that prompts the players to enter names that would be used ingame
 It also contains these scripts:

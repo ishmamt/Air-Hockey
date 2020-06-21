@@ -59,14 +59,14 @@ class Player(object):
         if self.hitbox.colliderect(puck.hitbox):
             puck.hit(self)
 
-    def goal(self):
+    def goal(self, win):
         # this function handles the actions if a goal occurs
         if self.points < MAXPOINTS:
             self.points += 1
+            scorePrompt(win, self.name + ' has scored', 1000)
             return False
         # game is over
-        print('GAME OVER')
-        print(self.name, 'has won !!')
+        scorePrompt(win, self.name + ' has Won !', 3000)
         return True
 
 
@@ -144,15 +144,24 @@ class Puck(object):
         self.x += round(self.dx)
         self.y -= round(self.dy)
 
-    def inGoal(self, p1, p2, p1_goal, p2_goal):
+    def inGoal(self, p1, p2, p1_goal, p2_goal, win):
         if self.hitbox.colliderect(p1_goal):
             self.resetPos()
-            return p2.goal()
+            return p2.goal(win)
         if self.hitbox.colliderect(p2_goal):
             self.resetPos()
-            return p1.goal()
+            return p1.goal(win)
         return False
 
     def resetPos(self):
         self.x = WIDHT // 2
         self.y = HEIGHT // 2
+
+
+def scorePrompt(win, text, wait):
+    statusFont = pygame.font.SysFont('Microsoft YaHei Light', 50)
+    pygame.draw.rect(win, (0, 0, 0), (0, (HEIGHT // 2) - 50, WIDHT, 100))  # drawing a frame to hold text
+    text = statusFont.render(text, 1, (255, 255, 255))
+    win.blit(text, ((WIDHT // 2) - text.get_width() / 2, (HEIGHT // 2) - text.get_height() / 2))
+    pygame.display.update()
+    pygame.time.delay(wait)

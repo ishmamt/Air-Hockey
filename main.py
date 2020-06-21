@@ -82,6 +82,7 @@ puck = Puck(WIDTH // 2, HEIGHT // 2, PUCK_RADIUS, WIDTH, HEIGHT, PUCK_SPEED, WHI
 
 
 gui.mainLoop(p1, p2)  # handles the GUI
+pygame.time.delay(400)  # slight delay after the title screen
 
 run = True  # for running the main loop
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -97,7 +98,7 @@ while run:
     p1.hit_detect(puck)
     p2.hit_detect(puck)
     puck.move()
-    if puck.inGoal(p1, p2, p1_goal, p2_goal):
+    if puck.inGoal(p1, p2, p1_goal, p2_goal, win):
         run = False  # game over
     redraw()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

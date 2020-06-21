@@ -6,7 +6,7 @@ This game was made using the awesome pygame module to gain ideas for a object or
 
 - At first you need to have python installed. I've used Python 3.8.1 and you can get the latest version of python from [here](https://www.python.org/downloads/).
 - Then use pip to install pygame. Usually pip comes with Python. If not then get it from [here](https://pypi.org/project/pip/).
-- > Compile and run the **main.py** script.
+- **Compile and run the main.py script.**
 
 ## What doe it contain?
 
@@ -22,7 +22,7 @@ It also contains these scripts:
 - *main.py*
     > This is the script that has the main loop and almost every constant can be maniulated from here.
 
-It also has *gameBG.jpg*, the background image used for the game window and *bgMusic.mp3*, the background music
+It also has  *gameBG.jpg* , the background image used for the game window and  *bgMusic.mp3* , the background music
 
 ## Future Plans:
 

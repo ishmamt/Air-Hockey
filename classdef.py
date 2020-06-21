@@ -59,13 +59,14 @@ class Player(object):
         if self.hitbox.colliderect(puck.hitbox):
             puck.hit(self)
 
-    def goal(self, win):
+    def goal(self, win, logger, opponent):
         # this function handles the actions if a goal occurs
         if self.points < MAXPOINTS:
             self.points += 1
             scorePrompt(win, self.name + ' has scored', 1000)
             return False
         # game is over
+        logger.info(f'  {self.name} has defeated {opponent.name} by scoring {self.points + 1} goals to {opponent.points}')
         scorePrompt(win, self.name + ' has Won !', 3000)
         return True
 
@@ -144,13 +145,13 @@ class Puck(object):
         self.x += round(self.dx)
         self.y -= round(self.dy)
 
-    def inGoal(self, p1, p2, p1_goal, p2_goal, win):
+    def inGoal(self, p1, p2, p1_goal, p2_goal, win, logger):
         if self.hitbox.colliderect(p1_goal):
             self.resetPos()
-            return p2.goal(win)
+            return p2.goal(win, logger, p1)
         if self.hitbox.colliderect(p2_goal):
             self.resetPos()
-            return p1.goal(win)
+            return p1.goal(win, logger, p2)
         return False
 
     def resetPos(self):

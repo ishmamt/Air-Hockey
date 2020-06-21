@@ -6,6 +6,7 @@ from classdef import Player
 from classdef import Puck
 from keypress import detect_key
 import gui
+import logging
 
 
 # constants
@@ -49,6 +50,10 @@ P1_COL = (232, 38, 38)
 P2_COL = (70, 180, 88)
 SCORE_COL = (191, 191, 191)
 
+# setting up a logger
+logging.basicConfig(filename='history.log', format='%(asctime)s %(message)s', level=logging.DEBUG)
+logger = logging.getLogger()  # getting an object called logger
+
 
 def drawBoard():
     # This function draws the game board
@@ -84,6 +89,7 @@ puck = Puck(WIDTH // 2, HEIGHT // 2, PUCK_RADIUS, WIDTH, HEIGHT, PUCK_SPEED, WHI
 gui.mainLoop(p1, p2)  # handles the GUI
 pygame.time.delay(400)  # slight delay after the title screen
 
+
 run = True  # for running the main loop
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # anyting between the lines are in the main loop
@@ -98,7 +104,7 @@ while run:
     p1.hit_detect(puck)
     p2.hit_detect(puck)
     puck.move()
-    if puck.inGoal(p1, p2, p1_goal, p2_goal, win):
+    if puck.inGoal(p1, p2, p1_goal, p2_goal, win, logger):
         run = False  # game over
     redraw()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
